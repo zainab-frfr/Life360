@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black,
                 tooltip: "Running Tracker",
                 onPressed: () {
-
+                   Navigator.pushNamed(context,'/running_tracker'); 
                 },
               ),
             ),

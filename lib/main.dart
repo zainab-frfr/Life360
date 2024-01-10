@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:namaz_counter/home.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:namaz_counter/namaz_tracker.dart';
+import 'package:namaz_counter/running_tracker.dart';
 
 void main() async{
   //initialize the hive 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyHomePage(), // define the home route
         '/namaz_tracker': (context) => NamazTracker(title: 'Namaz Counter'), // define the namaz_tracker route
+        '/running_tracker': (context) => RunningTracker(),
       },
     );
   }
