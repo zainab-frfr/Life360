@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:namaz_counter/database.dart';
+import 'package:namaz_counter/myDatabase/counterDatabase.dart';
 
 class NamazTracker extends StatefulWidget {
   const NamazTracker({super.key, required this.title});

@@ -2,6 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class counterDatabase{
 
+//------------------- variables and methods for namaz screen-------------------//
   List counters = [];
 
   
@@ -29,4 +30,5 @@ class counterDatabase{
   void updateData(){
     _myBox.put('counters', counters);
   }
+  
 }
