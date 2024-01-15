@@ -42,130 +42,222 @@ class _RunningTrackerState extends State<RunningTracker> {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-            child: Text('How many minutes did you run?',
-                style: TextStyle(fontSize: 14)),
+            child: Text(' Did you run?', style: TextStyle(fontSize: 14)),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-            child: TextField(
-              controller: _minutesController,
-              cursorColor: Color.fromARGB(255, 255, 188, 87),
-              decoration: InputDecoration(
-                //labelText: 'How many minutes did you run?',
-                labelStyle: TextStyle(fontSize: 14, color: Colors.black),
-                contentPadding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+                backgroundColor: Colors.amber,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Center(
+                          child: AlertDialog(
+                              title: Text("How many minutes did you run? "),
+                              content: StatefulBuilder(
+                                  // You need this, notice the parameters below:
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                return Column(
+                                  children: [
+                                    TextField(
+                                      controller: _minutesController,
+                                      cursorColor:
+                                          Color.fromARGB(255, 255, 188, 87),
+                                      decoration: InputDecoration(
+                                        //labelText: 'How many minutes did you run?',
+                                        labelStyle: TextStyle(
+                                            fontSize: 14, color: Colors.black),
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(0, 40, 0, 0),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.orange),
+                                        ),
+                                      ),
+                                      onSubmitted: (value) => {
+                                        if (_isValidInput(value))
+                                          {
+                                            setState(() {
+                                              _errorMessage = '';
+                                              db.updateData(int.parse(value));
+                                              db.updateStreak(1);
+                                            }),
+                                            Navigator.of(context).pop(),
+                                          }
+                                        else
+                                          {
+                                            setState(() {
+                                              _errorMessage =
+                                                  'Invalid input. Please enter a valid value.';
+                                            })
+                                          },
+                                        _minutesController.text = '',
+                        
+                                      },
+                                    ),
+                                    if (_errorMessage.isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            50, 0, 50, 0),
+                                        child: Text(
+                                          'Please enter a valid input',
+                                          style: TextStyle(
+                                              color: Colors.red, fontSize: 10),
+                                        ),
+                                      ),
+                                  ],
+                                );
+                              })),
+                        );
+                      });
+                },
+                child: Text(
+                  "Yes",
+                  style: TextStyle(fontWeight: FontWeight.w400),
                 ),
               ),
-              onSubmitted: (value) => {
-                if (_isValidInput(value))
-                  {
-                    setState(() {
-                      _errorMessage = '';
-                      db.updateData(int.parse(value));
-                    }),
-                  }
-                else
-                  {
-                    setState(() {
-                      _errorMessage =
-                          'Invalid input. Please enter a valid value.';
-                    })
-                  },
-                _minutesController.text = ''
-              },
-            ),
-          ),
-          if (_errorMessage.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-              child: Text(
-                'Please enter a valid input',
-                style: TextStyle(color: Colors.red, fontSize: 10),
+              SizedBox(
+                width: 20,
               ),
-            )
+              FloatingActionButton(
+                backgroundColor: Colors.amber,
+                onPressed: () {
+                  setState(() {
+                    db.updateStreak(0);
+                  });
+                },
+                child: Text(
+                  "No",
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 218, 77, 77),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Top 3 times",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 132, 22, 14),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 218, 77, 77),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Top 3 times",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 132, 22, 14),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      height: 30,
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 181, 61),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Center(child: Text("${db.first} min"))),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 181, 61),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Center(child: Text("${db.second} min"))),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 181, 61),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Center(child: Text("${db.third} min"))),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 50,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 181, 61),
+                        color: Color.fromARGB(255, 218, 77, 77),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Center(child: Text("${db.first} min"))),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 181, 61),
-                        borderRadius: BorderRadius.circular(10.0),
+                      child: Center(
+                        child: Text(
+                          "You've been on a streak since:",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 132, 22, 14),
+                          ),
+                        ),
                       ),
-                      child: Center(child: Text("${db.second} min"))),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 162, 216, 170),
+                  borderRadius:
+                      BorderRadius.circular(150), // 50 is half of width/height
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 181, 61),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Center(child: Text("${db.third} min"))),
-                ),
-              ],
-            ),
-          ],
-        ),
+                child: Center(child: Text("${db.streak} days")),
+              )
+            ]),
       ),
     ];
   }
@@ -198,7 +290,7 @@ class _RunningTrackerState extends State<RunningTracker> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.stacked_line_chart),
-              label: "summary",
+              label: "history",
             )
           ]),
     );

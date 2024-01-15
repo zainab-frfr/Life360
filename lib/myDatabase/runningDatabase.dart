@@ -7,6 +7,8 @@ class runningDatabase {
   int second = 0;
   int third = 0;
 
+  int streak = 0;
+
   // reference the box
   final _myBox = Hive.box('MyBox');
 
@@ -16,6 +18,7 @@ class runningDatabase {
     first = 0;
     second = 0;
     third = 0;
+    streak = 0;
   }
 
   //load data from database
@@ -24,6 +27,7 @@ class runningDatabase {
     first = _myBox.get('first');
     second = _myBox.get('second');
     third = _myBox.get('third');
+    streak = _myBox.get('streak');
   }
 
   //update database, add entry
@@ -36,11 +40,13 @@ class runningDatabase {
     _myBox.put('first', first);
     _myBox.put('second', second);
     _myBox.put('third', third);
+    _myBox.put('streak', streak);
 
     print(times);
     print(first);
     print(second);
     print(third);
+    print(streak);
 
   }
 
@@ -59,6 +65,15 @@ class runningDatabase {
     }
     else if (times.length >= 1) {
       first = times[0];
+    }
+  }
+
+  void updateStreak(int value){
+    if(value==0){
+      streak = 0;
+    }
+    else{
+      streak++;
     }
   }
 }
