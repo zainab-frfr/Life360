@@ -21,21 +21,19 @@ class runningDatabase {
     streak = 0;
   }
 
-  //load data from database
   void loadData() {
-    times = _myBox.get('times');
-    first = _myBox.get('first');
-    second = _myBox.get('second');
-    third = _myBox.get('third');
-    streak = _myBox.get('streak');
+    times = _myBox.get('times') ?? [];
+    first = _myBox.get('first') ?? 0;
+    second = _myBox.get('second') ?? 0;
+    third = _myBox.get('third') ?? 0;
+    streak = _myBox.get('streak') ?? 0;
   }
 
   //update database, add entry
   void updateData(int time) {
-    
     times.add(time);
     _myBox.put('times', times);
-    
+
     maxTimes();
     _myBox.put('first', first);
     _myBox.put('second', second);
@@ -47,7 +45,6 @@ class runningDatabase {
     print(second);
     print(third);
     print(streak);
-
   }
 
   void maxTimes() {
@@ -58,22 +55,20 @@ class runningDatabase {
       first = times[0];
       second = times[1];
       third = times[2];
-    }
-    else if (times.length >= 2) {
+    } else if (times.length >= 2) {
       first = times[0];
       second = times[1];
-    }
-    else if (times.length >= 1) {
+    } else if (times.length >= 1) {
       first = times[0];
     }
   }
 
-  void updateStreak(int value){
-    if(value==0){
+  void updateStreak(int value) {
+    if (value == 0 && streak > 0) {
       streak = 0;
-    }
-    else{
+    } else {
       streak++;
     }
+    _myBox.put('streak', streak);
   }
 }

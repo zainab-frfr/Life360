@@ -64,6 +64,7 @@ class _RunningTrackerState extends State<RunningTracker> {
                                   builder: (BuildContext context,
                                       StateSetter setState) {
                                 return Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     TextField(
                                       controller: _minutesController,
@@ -74,7 +75,7 @@ class _RunningTrackerState extends State<RunningTracker> {
                                         labelStyle: TextStyle(
                                             fontSize: 14, color: Colors.black),
                                         contentPadding:
-                                            EdgeInsets.fromLTRB(0, 40, 0, 0),
+                                            EdgeInsets.fromLTRB(0, 30, 0, 0),
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.orange),
@@ -101,6 +102,7 @@ class _RunningTrackerState extends State<RunningTracker> {
                         
                                       },
                                     ),
+                                    SizedBox(height: 20,),
                                     if (_errorMessage.isNotEmpty)
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
@@ -111,7 +113,8 @@ class _RunningTrackerState extends State<RunningTracker> {
                                               color: Colors.red, fontSize: 10),
                                         ),
                                       ),
-                                  ],
+                                      
+                                  ]
                                 );
                               })),
                         );
@@ -232,7 +235,7 @@ class _RunningTrackerState extends State<RunningTracker> {
                       ),
                       child: Center(
                         child: Text(
-                          "You've been on a streak since:",
+                          "Your running streak:",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -251,11 +254,11 @@ class _RunningTrackerState extends State<RunningTracker> {
                 width: 300,
                 height: 300,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 162, 216, 170),
+                  color: Color.fromARGB(255, 181, 219, 186),
                   borderRadius:
                       BorderRadius.circular(150), // 50 is half of width/height
                 ),
-                child: Center(child: Text("${db.streak} days")),
+                child: Center(child: Text("${db.streak} day(s)")),
               )
             ]),
       ),
